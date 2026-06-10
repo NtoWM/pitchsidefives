@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pitchside Fives — Organise Your Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #090D12;
+      --navy2:  #111820;
+      --navy3:  #1A2332;
+      --orange: #FF6B1A;
+      --orange-dim: #CC5514;
+      --white:  #FFFFFF;
+      --grey:   #8A9BB0;
+      --grey2:  #C4CDD8;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 40px;
+      background: rgba(9,13,18,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Russo One', sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.02em;
+    }
+    .logo span { color: var(--orange); }
+
+    nav a {
+      color: var(--grey2);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--white); }
+
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+
+    .btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 10px 22px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn:hover { background: var(--orange-dim); transform: translateY(-1px); color: var(--white); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* pitch lines background */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(rgba(255,107,26,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,107,26,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* centre circle */
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border: 1px solid rgba(255,107,26,0.08);
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: 'Russo One', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      max-width: 800px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--orange);
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--grey2);
+      max-width: 520px;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    }
+
+    .btn-outline {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 10px 22px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--orange); background: rgba(255,107,26,0.06); }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 24px; }
+
+    .container { max-width: 1040px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: 'Russo One', sans-serif;
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .section-body {
+      font-size: 1.05rem;
+      color: var(--grey2);
+      max-width: 600px;
+      line-height: 1.75;
+    }
+
+    /* ── HOW IT WORKS ── */
+    #how { background: var(--navy2); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2px;
+      margin-top: 56px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .step {
+      background: var(--navy3);
+      padding: 36px 28px;
+      position: relative;
+    }
+
+    .step-num {
+      font-family: 'Russo One', sans-serif;
+      font-size: 3rem;
+      color: rgba(255,107,26,0.15);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+
+    .step p {
+      font-size: 0.875rem;
+      color: var(--grey);
+      line-height: 1.65;
+    }
+
+    /* ── FEATURES ── */
+    #features { background: var(--navy); }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 56px;
+    }
+
+    .feature-card {
+      background: var(--navy2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: rgba(255,107,26,0.3); }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(255,107,26,0.08);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .feature-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 0.875rem;
+      color: var(--grey);
+      line-height: 1.65;
+    }
+
+    /* ── PAYMENTS ── */
+    #payments { background: var(--navy2); }
+
+    .payments-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      margin-top: 56px;
+    }
+
+    .payment-list { list-style: none; }
+    .payment-list li {
+      display: flex;
+      gap: 14px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+      color: var(--grey2);
+      align-items: flex-start;
+    }
+    .payment-list li:last-child { border-bottom: none; }
+
+    .pill {
+      display: inline-block;
+      background: rgba(255,107,26,0.12);
+      color: var(--orange);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .payment-card {
+      background: var(--navy3);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+    }
+
+    .payment-card-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 24px;
+    }
+
+    .payment-amount {
+      font-family: 'Russo One', sans-serif;
+      font-size: 2.5rem;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .payment-sub {
+      font-size: 0.8rem;
+      color: var(--grey);
+      margin-bottom: 28px;
+    }
+
+    .payment-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--grey2);
+    }
+    .payment-row:last-child { border-bottom: none; }
+    .payment-row span:last-child { color: var(--white); font-weight: 500; }
+
+    /* ── POLICIES ── */
+    #policies { background: var(--navy); }
+
+    .policy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 56px;
+    }
+
+    .policy-box {
+      background: var(--navy2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px;
+    }
+
+    .policy-box h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--orange);
+    }
+
+    .policy-box p, .policy-box li {
+      font-size: 0.875rem;
+      color: var(--grey);
+      line-height: 1.75;
+    }
+
+    .policy-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .policy-box ul li {
+      padding: 6px 0;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .policy-box ul li::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: var(--orange);
+      font-size: 0.75rem;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--navy2); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-top: 56px;
+    }
+
+    .contact-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .contact-item label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .contact-item p {
+      font-size: 0.95rem;
+      color: var(--grey2);
+    }
+
+    .contact-item a {
+      color: var(--grey2);
+      text-decoration: none;
+    }
+    .contact-item a:hover { color: var(--white); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: var(--grey);
+    }
+
+    footer a {
+      font-size: 0.8rem;
+      color: var(--grey);
+      text-decoration: none;
+    }
+    footer a:hover { color: var(--white); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { gap: 20px; }
+      .nav-links a:not(.btn) { display: none; }
+
+      section { padding: 72px 20px; }
+
+      .payments-grid,
+      .policy-grid,
+      .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+
+      footer { flex-direction: column; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">PF<span>.</span></div>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#payments">Payments</a>
+      <a href="#policies">Policies</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="btn">Get Early Access</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">Now in Beta — Johannesburg</p>
+    <h1>Your next game,<br /><em>sorted.</em></h1>
+    <p>Pitchside Fives replaces the WhatsApp thread. Schedule games, organise your squad, split costs, and track goals — whenever you play.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn">Join the Beta</a>
+      <a href="#how" class="btn-outline">See how it works</a>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="container">
+      <p class="section-label">How it works</p>
+      <h2 class="section-title">From "who's playing next?"<br/>to kick-off in four steps.</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>Create your squad</h3>
+          <p>Set up a group — venue, kick-off time, session cost. Schedule one-off or recurring games. Invite players by phone number.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>Availability ping</h3>
+          <p>When a game is scheduled, the app automatically asks your group who's in. Players confirm or decline in one tap — no WhatsApp thread needed.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>Pick teams</h3>
+          <p>Organiser sees the confirmed list, assigns captains, and captains pick their teams in-app. Team sheet goes out to everyone instantly.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h3>Play and pay</h3>
+          <p>Log goals live on the sideline. After the game, the pitch cost splits automatically among confirmed players via PayFast. Pitchside Fives handles the venue payment directly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="container">
+      <p class="section-label">Features</p>
+      <h2 class="section-title">Built for recreational football groups.</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <h3>Flexible scheduling</h3>
+          <p>Schedule one-off or recurring games on any day. The app handles session creation, availability collection, and reminders automatically.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></div>
+          <h3>Availability tracking</h3>
+          <p>No more scrolling through WhatsApp replies. See exactly who's in, who's out, and who hasn't responded — in real time.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <h3>Live goal logging</h3>
+          <p>Log goals and assists on the sideline as they happen. Scorer and assister picked from your confirmed player list.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="14"/><line x1="8" y1="20" x2="16" y2="20"/><path d="M17 4H7v6a5 5 0 0 0 10 0V4z"/><path d="M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4"/></svg></div>
+          <h3>Player stats</h3>
+          <p>Season goals, assists, and sessions played tracked automatically for every player in your group.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/><line x1="20" y1="8" x2="20" y2="14"/></svg></div>
+          <h3>Team picker</h3>
+          <p>Supports 2, 3, or 4 teams. Captains alternate picks from the confirmed list. Teams published to all players instantly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+          <h3>Cost splitting</h3>
+          <p>Pitch cost divided equally among confirmed players. Each player pays their share directly through the app via PayFast.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAYMENTS -->
+  <section id="payments">
+    <div class="container">
+      <p class="section-label">Payments</p>
+      <h2 class="section-title">Transparent, simple cost splitting.</h2>
+      <p class="section-body">Pitchside Fives processes payments exclusively through PayFast, South Africa's leading payment gateway. All transactions are peer-to-peer cost splits for recreational football sessions.</p>
+      <div class="payments-grid">
+        <ul class="payment-list">
+          <li>
+            <span class="pill">Gateway</span>
+            <span>All payments processed securely via PayFast. No card details stored on Pitchside Fives servers.</span>
+          </li>
+          <li>
+            <span class="pill">Model</span>
+            <span>Pitchside Fives books and pays the venue directly. Players pay their share of the pitch hire cost through the app.</span>
+          </li>
+          <li>
+            <span class="pill">Refunds</span>
+            <span>Full refunds issued automatically if a session is cancelled by the organiser before kick-off.</span>
+          </li>
+          <li>
+            <span class="pill">Methods</span>
+            <span>Credit card, debit card, Instant EFT, SnapScan, Zapper — all PayFast-supported methods accepted.</span>
+          </li>
+        </ul>
+        <div class="payment-card">
+          <p class="payment-card-title">Example — midweek session</p>
+          <div class="payment-amount">R25</div>
+          <p class="payment-sub">per player · 16 players confirmed</p>
+          <div class="payment-row"><span>Pitch hire</span><span>R400</span></div>
+          <div class="payment-row"><span>Confirmed players</span><span>16</span></div>
+          <div class="payment-row"><span>Per player</span><span>R25.00</span></div>
+          <div class="payment-row"><span>PayFast fee</span><span>Absorbed</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POLICIES -->
+  <section id="policies">
+    <div class="container">
+      <p class="section-label">Policies</p>
+      <h2 class="section-title">Clear rules, no surprises.</h2>
+      <div class="policy-grid">
+        <div class="policy-box">
+          <h3>Refund Policy</h3>
+          <ul>
+            <li>Full refund if the organiser cancels the session before kick-off.</li>
+            <li>No refund for players who confirmed but do not show up.</li>
+            <li>Partial refunds at organiser discretion for late cancellations.</li>
+            <li>Refunds processed within 5–10 business days via original payment method.</li>
+            <li>A R2.00 (excl. VAT) PayFast processing fee applies per refund transaction.</li>
+          </ul>
+        </div>
+        <div class="policy-box">
+          <h3>Privacy Policy</h3>
+          <ul>
+            <li>Personal data (name, phone, email) collected solely to facilitate game organisation and payments.</li>
+            <li>No data sold to third parties.</li>
+            <li>Payment information handled entirely by PayFast — not stored on Pitchside Fives servers.</li>
+            <li>Location data used only to show nearby venues and is never shared.</li>
+            <li>Users may request data deletion at any time via support.</li>
+          </ul>
+        </div>
+        <div class="policy-box">
+          <h3>Terms of Use</h3>
+          <ul>
+            <li>Pitchside Fives is a platform for organising recreational football sessions.</li>
+            <li>Pitchside Fives is responsible for booking and paying venues directly on behalf of the group.</li>
+            <li>The app facilitates cost splitting among confirmed players to recover venue costs.</li>
+            <li>Users must be 18 years or older to make payments.</li>
+            <li>NTO Analytics PTY Ltd reserves the right to suspend accounts that misuse the platform.</li>
+          </ul>
+        </div>
+        <div class="policy-box">
+          <h3>Security</h3>
+          <ul>
+            <li>All data transmitted over HTTPS/TLS.</li>
+            <li>Authentication via Firebase — industry-standard OAuth 2.0.</li>
+            <li>Payment flows handled server-side via Supabase Edge Functions.</li>
+            <li>No sensitive financial data stored in the app or on our servers.</li>
+            <li>POPIA compliant — South African data residency maintained.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-label">Contact</p>
+      <h2 class="section-title">Get in touch.</h2>
+      <div class="contact-grid">
+        <div class="contact-detail">
+          <div class="contact-item">
+            <label>Company</label>
+            <p>NTO Analytics PTY Ltd</p>
+          </div>
+          <div class="contact-item">
+            <label>Product</label>
+            <p>Pitchside Fives</p>
+          </div>
+          <div class="contact-item">
+            <label>Location</label>
+            <p>Johannesburg, South Africa</p>
+          </div>
+          <div class="contact-item">
+            <label>Email</label>
+            <p><a href="mailto:support@pitchsidefives.co.za">support@pitchsidefives.co.za</a></p>
+          </div>
+          <div class="contact-item">
+            <label>Beta Access</label>
+            <p>Currently accepting testers in Johannesburg. <a href="mailto:support@pitchsidefives.co.za">Email us to join.</a></p>
+          </div>
+        </div>
+        <div class="policy-box">
+          <h3>For Payment Queries</h3>
+          <p style="margin-bottom:16px;">All payment processing is handled by PayFast. Pitchside Fives books and pays venues directly on behalf of groups. For transaction-specific queries, please contact us directly.</p>
+          <p>Merchant: <strong style="color:var(--white)">NTO Analytics PTY Ltd</strong><br/>
+          Platform: <strong style="color:var(--white)">Pitchside Fives</strong><br/>
+          Payment Gateway: <strong style="color:var(--white)">PayFast</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 NTO Analytics PTY Ltd · Pitchside Fives · Johannesburg, South Africa</p>
+    <div style="display:flex;gap:24px;">
+      <a href="#policies">Privacy Policy</a>
+      <a href="#policies">Terms of Use</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </footer>
+
+</body>
+</html>
